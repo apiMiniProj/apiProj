@@ -8,7 +8,7 @@
 		
 	</head>
 	<body>
-	    <main id ="login-form"  class="login-form">
+	    <main  id ="login-form"  class="login-form">
     <div class="cotainer">
         <div class="row justify-content-center">
             <div class="col-md-8">
@@ -57,6 +57,7 @@
 	  window.addEventListener("load", function() {
 	    var form = document.getElementById("login-form");
 	    form.addEventListener("submit", function(event) {
+	    	alert("로그인")
 	      	$.ajax({
 				type: "GET", 
 				url:"/userTest",

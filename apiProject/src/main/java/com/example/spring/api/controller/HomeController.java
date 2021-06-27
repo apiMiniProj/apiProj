@@ -9,6 +9,7 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -19,7 +20,7 @@ import com.example.spring.api.model.ApiQuery;
 import com.example.spring.api.model.ApiUser;
 import com.example.spring.api.service.HomeService;
 
-@RestController
+@Controller
 public class HomeController {
 	@Autowired
 	private HomeService homeService;
@@ -40,7 +41,7 @@ public class HomeController {
 		
 		logger.info("getId.", oj.getCustomId()); 
 		
-		return "home";
+		return "login";
 	}
 	
 	/** 테스트 **/
