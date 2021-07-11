@@ -60,7 +60,6 @@ public class ProdController {
 		
 		final int cntS = ProdService.SaveApiProds(map);
 		return cntS;
-		
 	}
 	
 	/** 상품삭제 **/
