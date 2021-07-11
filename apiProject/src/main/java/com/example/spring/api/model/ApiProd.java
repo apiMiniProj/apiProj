@@ -4,6 +4,7 @@ import org.apache.ibatis.type.Alias;
 
 import lombok.Data;
 
+
 @Data
 public class ApiProd {
 	String proCode;
