@@ -41,7 +41,7 @@ public class ProdController {
 		return "prods";
 	}
 	
-	@RequestMapping(value = "/SelectApiProds", method = RequestMethod.GET)
+	@RequestMapping(value = "/prods/SelectApiProds", method = RequestMethod.GET)
 	public @ResponseBody Object SelectApiProds(@RequestParam Map<String, Object> map, HttpServletRequest req) throws Exception {
 		logger.info(">>ProdController.SelectApiProds");
 		final ApiProd apiProd = ProdService.SelectApiProds(map);
@@ -49,7 +49,7 @@ public class ProdController {
 	}
 	
 	/** 상품저장 **/
-	@RequestMapping(value = "/SaveApiProds", method = RequestMethod.POST)
+	@RequestMapping(value = "/prods/SaveApiProds", method = RequestMethod.POST)
 	public @ResponseBody Object SaveApiProds(@RequestBody Map<String, Object> map, HttpServletRequest req) throws Exception {
 				
 		HttpSession session = req.getSession();
@@ -61,7 +61,7 @@ public class ProdController {
 	}
 	
 	/** 상품삭제 **/
-	@RequestMapping(value = "/DeleteApiProds", method = RequestMethod.POST)
+	@RequestMapping(value = "/prods/DeleteApiProds", method = RequestMethod.POST)
 	public @ResponseBody Object DeleteApiProds(@RequestBody Map<String, Object> map, HttpServletRequest req) throws Exception {
 		logger.info(">>ProdController.DeleteApiProds");
 		

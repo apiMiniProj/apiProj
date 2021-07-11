@@ -35,7 +35,7 @@
                 	<div class="form-group row">
                 		<label for="pro_code" class="col-md-4 col-form-label text-md-right">상품코드 :</label>
                 		<div class="col-md-6">
-                			<input type="text" id="pro_code" class="form-control" name="pro_code" required>
+                			<input type="text" id="pro_code" class="form-control" name="pro_code" placeholder="*저장시 필수값*" required>
                 		</div>
                 	</div>
 
@@ -77,7 +77,8 @@
                 	<div class="form-group row">
                 		<label for="pro_available" class="col-md-4 col-form-label text-md-right">사용여부 :</label>
                 			<div class="col-md-6">
-                				<input type="text" id="pro_available" class="form-control" name="pro_available">
+                				<input type="radio" id="pro_available" value="Y" name="pro_available" checked="checked" /> 사용[Y] &nbsp; 
+                                <input type="radio" id="pro_available" value="N" name="pro_available" /> 미사용[N]
                 			</div>
                 	</div>
                 </form>
@@ -109,12 +110,12 @@ function btnSaveClick(){
 			proBrand : $("#pro_brand").val(),
 			proPrice : $("#pro_price").val(),
 			proInfo : $("#pro_info").val(),
-			proAvailable : $("#pro_available").val().toUpperCase()
+			proAvailable : $("#pro_available").val()
 		};
 	
 	$.ajax({
 		type : "POST",
-		url : "/SaveApiProds",
+		url : "/prods/SaveApiProds",
 		data: JSON.stringify(param),
 		contentType : "application/json; charset=UTF-8",
 		success : function(data) {
@@ -135,13 +136,16 @@ function btnDeleteClick(){
 	
 	$.ajax({
 		type : "POST",
-		url : "/DeleteApiProds",
+		url : "/prods/DeleteApiProds",
 		data: JSON.stringify(param),
 		contentType : "application/json; charset=UTF-8",
 		success : function(data) {
 			if (data > 0){
 				//삭제
 				alert("해당 상품이 삭제 되었습니다.");
+				$("#Prods")[0].reset();
+			}else{
+				alert( "' "+$("#pro").val()+" ' 에 대한 상품정보가 없습니다.");
 				$("#Prods")[0].reset();
 			}
 		}
@@ -156,7 +160,7 @@ function btnSelectClick(){
 	
 	$.ajax({
 		type : "GET",
-		url : "/SelectApiProds",
+		url : "/prods/SelectApiProds",
 		data: param,
 		contentType : "application/json; charset=UTF-8",
 		success : function(data) {
@@ -169,7 +173,8 @@ function btnSelectClick(){
 				$('#pro_info').val(data.proInfo);
 				$('#pro_available').val(data.proAvailable);
 			} else {
-				alert("조회 내역이 없습니다.");
+				alert( "' "+$("#pro").val()+" ' 에 대한 상품정보가 없습니다.");
+				$("#Prods")[0].reset();
 			}
 		}
 	});
@@ -187,7 +192,6 @@ function checkNumber(e) {
         return false;
     }
 }
-
 	
 </script>
 
