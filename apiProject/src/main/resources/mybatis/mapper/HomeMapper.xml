@@ -26,4 +26,15 @@
 			AND ADMIN_YN = #{adminYn}
 		</if>
 	</select>
+	
+	<!-- 유저 확인 -->
+	<select id="loadUserByUsername" resultType="com.example.spring.api.model.ApiUser" parameterType="String">
+		SELECT USER_ID
+			, USER_PW
+			, USER_AVAILABLE
+			, ADMIN_YN
+		FROM API_USER
+		WHERE USER_ID = #{userId}
+		AND USER_AVAILABLE = 'Y'
+	</select>
 </mapper>

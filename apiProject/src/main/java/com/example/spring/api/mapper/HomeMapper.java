@@ -11,4 +11,5 @@ import com.example.spring.api.model.ApiUser;
 public interface HomeMapper {
 	List<ApiUser> findApiUsers();
 	ApiUser findApiUser(Map map);
+	ApiUser loadUserByUsername(String userName);
 }

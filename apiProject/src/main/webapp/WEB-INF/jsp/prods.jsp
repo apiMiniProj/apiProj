@@ -103,13 +103,13 @@ function btnInitClick(){
 //상품 저장
 function btnSaveClick(){
 	var param = {
-			pro_code : $("#pro_code").val(),
-			pro_name : $("#pro_name").val(),
-			pro_category : $("#pro_category").val(),
-			pro_brand : $("#pro_brand").val(),
-			pro_price : $("#pro_price").val(),
-			pro_info : $("#pro_info").val(),
-			pro_available : $("#pro_available").val().toUpperCase()
+			proCode : $("#pro_code").val(),
+			proName : $("#pro_name").val(),
+			proCategory : $("#pro_category").val(),
+			proBrand : $("#pro_brand").val(),
+			proPrice : $("#pro_price").val(),
+			proInfo : $("#pro_info").val(),
+			proAvailable : $("#pro_available").val().toUpperCase()
 		};
 	
 	$.ajax({
@@ -130,7 +130,7 @@ function btnSaveClick(){
 //상품 삭제
 function btnDeleteClick(){
 	var param = {
-			pro_code : $("#pro").val()
+			proCode : $("#pro").val()
 		};
 	
 	$.ajax({
@@ -151,7 +151,7 @@ function btnDeleteClick(){
 //상품 조회
 function btnSelectClick(){
 	var param = {
-			pro_code : $("#pro").val()
+			proCode : $("#pro").val()
 		};
 	
 	$.ajax({
@@ -161,8 +161,13 @@ function btnSelectClick(){
 		contentType : "application/json; charset=UTF-8",
 		success : function(data) {
 			if (!(data == null || data == "")){
-				  
-				$('#pro_code').val(JSON.stringify(data.proCode));
+				$('#pro_code').val(data.proCode);
+				$('#pro_name').val(data.proName);
+				$('#pro_category').val(data.proCategory);
+				$('#pro_brand').val(data.proBrand);
+				$('#pro_price').val(data.proPrice);
+				$('#pro_info').val(data.proInfo);
+				$('#pro_available').val(data.proAvailable);
 			} else {
 				alert("조회 내역이 없습니다.");
 			}

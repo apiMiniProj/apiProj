@@ -1,5 +1,6 @@
 package com.example.spring.api.service;
 
+import java.util.List;
 import java.util.Map;
 
 import org.slf4j.Logger;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 import com.example.spring.api.controller.AdminController;
 import com.example.spring.api.mapper.AdminMapper;
 import com.example.spring.api.model.ApiQuery;
+import com.example.spring.api.model.ApiUser;
 
 @Service
 public class AdminServiceImpl implements AdminService{
@@ -29,5 +31,24 @@ public class AdminServiceImpl implements AdminService{
 		logger.info("AdminServiceImpl.saveCustomQuery"); 
 		int cnt = adminMapper.saveCustomQuery(map);
 		return cnt;
+	}
+	
+	@Override 
+	public ApiUser getApiUser(Map map) { 
+		logger.info("AdminServiceImpl.getApiUser"); 
+		return adminMapper.getApiUser(map); 
+	}
+	
+	@Override 
+	public int saveApiUser(Map map) {
+		logger.info("AdminServiceImpl.saveApiUser"); 
+		int cnt = adminMapper.saveApiUser(map);
+		return cnt;
+	}
+	
+	@Override 
+	public List<Map<String, Object>> getCustomsApi(Map map){
+		logger.info("AdminServiceImpl.getCustomsApi"); 
+		return adminMapper.getCustomsApi(map); 
 	}
 }

@@ -14,20 +14,21 @@ $(document).ready(function() {
 			userId : $("#userId").val(),
 			userPw : $("#userPw").val()
 		};
-		 
+		
+		var token = "";
+		
 		$.ajax({
 			type : "POST",
 			url : "/login",
 			data: JSON.stringify(userObject),
 			contentType : "application/json; charset=UTF-8",
-			success : function(data) {
-				console.log("data: " + data);
-				
-				if(data.userId == $("#userId").val()){
+			success : function(data, status, xhr) {
+				if(data.userId != null && data.userId != ""){
 					//로그인 완료
-					location.href = "/admin/main";	
+					location.href = "/main";
 				} else {
 					alert("아이디와 비밀번호를 확인해주세요.");
+					return;
 				}
 			}
 		});
@@ -47,14 +48,14 @@ $(document).ready(function() {
                     <div class="card-body">
                         <form action="/" method="" target="iframe1">
                             <div class="form-group row mb-2">
-                                <label for="email_address" class="col-md-4 col-form-label text-end">ID :</label>
+                                <label for="userId" class="col-md-4 col-form-label text-end">ID :</label>
                                 <div class="col-md-6">
                                     <input type="text" id="userId" class="form-control" name="userId" required autofocus>
                                 </div>
                             </div>
 
                             <div class="form-group row mb-2">
-                                <label for="password" class="col-md-4 col-form-label text-end">Password :</label>
+                                <label for="userPw" class="col-md-4 col-form-label text-end">Password :</label>
                                 <div class="col-md-6">
                                     <input type="password" id="userPw" class="form-control" name="userPw" required>
                                 </div>
@@ -90,15 +91,22 @@ $(document).ready(function() {
 				userId : $("#userId").val(),
 				userPw : $("#userPw").val()
 			};
-	    	
-	      	$.ajax({
+			var token = "";
+			
+			$.ajax({
 				type: "POST", 
 				url:"/login",
 				data : userObject,
-				success : function(result){
-					alert(result);
-					
-					location.href = "/admin/main";		// 성공시 해당 페이지로 이동 ex) location.href  = "home"; 
+				success : function(result, status, xhr) {
+					if(result.user != null){
+						//로그인 완료
+						token = xhr.getResponseHeader("X-AUTH-TOKEN");
+						alert(token);
+						
+					} else {
+						alert("아이디와 비밀번호를 확인해주세요.");
+						return;
+					}
 				},
 				error : function(a, b, c){
 					//통신 실패시 발생하는 함수(콜백)

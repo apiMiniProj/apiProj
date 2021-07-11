@@ -1,5 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%
+	String userId;
+	String userPw;
+
+	if (session.getAttribute("userId") != null && session.getAttribute("userPw") != null) {
+		userId = (String) session.getAttribute("userId");
+		userPw = (String) session.getAttribute("userPw");
+	}
+%>
 <!DOCTYPE html>
 <html>
 	<head>
@@ -14,18 +23,37 @@ $(document).ready(function() {
 
 	// 조회
 	$("#searchBtn").on("click", function() {
-		var param = {
-			customId : $("#customId").val()
+		// 토큰 가지고 오기
+		var userObject = {
+			userId : "${userId}" ,
+			userPw : "${userPw}"
 		};
 		
+		var token = "";
+		
 		$.ajax({
-			type : "GET",
-			url : "/admin/getApiQuery",
-			data: param,
+			type : "POST",
+			url : "/auth",
+			data: JSON.stringify(userObject),
+			async: false,
 			contentType : "application/json; charset=UTF-8",
 			success : function(data) {
 				if (!(data == null || data == "")){
-					// JSON.stringify(data)
+					console.log("accessToken : "+data.accessToken);
+					token = data.accessToken;
+				}
+			}
+		});
+		
+		$.ajax({
+			type : "GET",
+			url : "/admin/apiQuery?customId="+$("#customId").val(),
+			contentType : "application/json; charset=UTF-8",
+			headers: {
+				"Authorization" : "Bearer "+token
+			} ,
+			success : function(data) {
+				if (!(data == null || data == "")){
 					$("#queryText").val(data.queryText);
 					
 					if (data.userAvailable == "Y"){
@@ -36,12 +64,38 @@ $(document).ready(function() {
 				} else {
 					alert("조회 내역이 없습니다.");
 				}
+			},
+			error : function(a, b, c){
+				alert(b);
+				return;
 			}
 		});
 	});
 	
 	//저장
 	$("#saveBtn").on("click", function() {
+		// 토큰 가지고 오기
+		var userObject = {
+			userId : "${userId}" ,
+			userPw : "${userPw}"
+		};
+		
+		var token = "";
+		
+		$.ajax({
+			type : "POST",
+			url : "/auth",
+			data: JSON.stringify(userObject),
+			async: false,
+			contentType : "application/json; charset=UTF-8",
+			success : function(data) {
+				if (!(data == null || data == "")){
+					console.log("accessToken : "+data.accessToken);
+					token = data.accessToken;
+				}
+			}
+		});
+		
 		var param = {
 			customId : $("#customId").val(),
 			userAvailable : ($("#userAvailable").is(":checked") ? "Y" : "N"),
@@ -50,9 +104,12 @@ $(document).ready(function() {
 		
 		$.ajax({
 			type : "POST",
-			url : "/admin/saveCustomQuery",
+			url : "/admin/apiQuery",
 			data: JSON.stringify(param),
 			contentType : "application/json; charset=UTF-8",
+			headers: {
+				"Authorization" : "Bearer "+token
+			} ,
 			success : function(data) {
 				if (data > 0){
 					//저장

@@ -30,7 +30,7 @@ public class ProdController {
 	private ProdService ProdService;
 	private static final Logger logger = LoggerFactory.getLogger(ProdController.class);
 	
-	@RequestMapping(value = "/", method = RequestMethod.GET)
+	@RequestMapping(value = "/prods", method = RequestMethod.GET)
 	public String prod(Locale locale, Model model) {
 			
 		Date date = new Date();
@@ -45,7 +45,6 @@ public class ProdController {
 	public @ResponseBody Object SelectApiProds(@RequestParam Map<String, Object> map, HttpServletRequest req) throws Exception {
 		logger.info(">>ProdController.SelectApiProds");
 		final ApiProd apiProd = ProdService.SelectApiProds(map);
-		//logger.info(ProdService.SelectApiProds(map).toString());
 		return apiProd;
 	}
 	

@@ -15,19 +15,19 @@
              , PRO_AVAILABLE
         FROM API_PRODUCT
         WHERE 1=1
-          AND (#{pro_code} IS NULL OR PRO_CODE = #{pro_code})
+          AND (#{proCode} IS NULL OR PRO_CODE = #{proCode})
     </select>    
     
     <!-- 상품저장 -->
 	<update id="SaveApiProds" parameterType="java.util.Map">
 		MERGE INTO API_PRODUCT P
-		USING (SELECT #{pro_code} AS PRO_CODE
-					, #{pro_name} AS PRO_NAME
-					, #{pro_category} AS PRO_CATEGORY
-					, #{pro_brand} AS PRO_BRAND
-					, #{pro_price} AS PRO_PRICE
-					, #{pro_info} AS PRO_INFO
-					, #{pro_available} AS PRO_AVAILABLE					
+		USING (SELECT #{proCode} AS PRO_CODE
+					, #{proName} AS PRO_NAME
+					, #{proCategory} AS PRO_CATEGORY
+					, #{proBrand} AS PRO_BRAND
+					, #{proPrice} AS PRO_PRICE
+					, #{proInfo} AS PRO_INFO
+					, #{proAvailable} AS PRO_AVAILABLE
 					, SYSDATE AS REG_DATE
 					, #{userId} AS REG_EMP
 					, #{userIp} AS IP
@@ -68,7 +68,7 @@
 	
 	<!-- 상품삭제 -->
 	<delete id="DeleteApiProds" parameterType="java.util.Map">
-	    DELETE API_PRODUCT WHERE PRO_CODE = #{pro_code}
+	    DELETE API_PRODUCT WHERE PRO_CODE = #{proCode}
     </delete> 
 	
 </mapper>

@@ -23,7 +23,7 @@
 					, #{queryText} AS QUERY_TEXT
 					, #{userAvailable} AS USER_AVAILABLE
 					, SYSDATE AS REG_DATE
-					, #{userId} AS REG_EMP
+					, #{ssUserId} AS REG_EMP
 					, #{userIp} AS IP
 				FROM DUAL ) T
 		ON (S.CUSTOM_ID = T.CUSTOM_ID)
@@ -48,4 +48,63 @@
 			  , T.REG_EMP
 			  , T.IP )
 	</update>
+	
+	<!-- 어드민 API 사용자등록 조회 -->
+	<select id="getApiUser" resultType="com.example.spring.api.model.ApiUser" parameterType="java.util.Map">
+		SELECT USER_ID
+			, USER_PW
+			, USER_AVAILABLE
+			, ADMIN_YN
+		FROM API_USER
+		WHERE USER_ID = #{userId}
+	</select>
+	
+	<!-- 어드민 API 사용자등록 저장 -->
+	<update id="saveApiUser" parameterType="java.util.Map">
+		MERGE INTO API_USER S
+		USING (SELECT #{userId} AS USER_ID
+					, #{userPw} AS USER_PW
+					, #{userAvailable} AS USER_AVAILABLE
+					, #{adminYn} AS ADMIN_YN
+					, SYSDATE AS REG_DATE
+					, #{ssUserId} AS REG_EMP
+					, #{userIp} AS IP
+				FROM DUAL ) T
+		ON (S.USER_ID = T.USER_ID)
+		WHEN MATCHED THEN
+		UPDATE SET 
+			  S.USER_PW = T.USER_PW
+			, S.USER_AVAILABLE = T.USER_AVAILABLE
+			, S.ADMIN_YN = T.ADMIN_YN
+			, S.REG_DATE = T.REG_DATE
+			, S.REG_EMP = T.REG_EMP
+			, S.IP = T.IP
+		WHEN NOT MATCHED THEN
+		INSERT (S.USER_ID
+			  , S.USER_PW
+			  , S.USER_AVAILABLE
+			  , S.ADMIN_YN
+			  , S.REG_DATE
+			  , S.REG_EMP
+			  , S.IP )
+		VALUES (T.USER_ID
+			  , T.USER_PW
+			  , T.USER_AVAILABLE
+			  , T.ADMIN_YN
+			  , T.REG_DATE
+			  , T.REG_EMP
+			  , T.IP )
+	</update>
+	
+	<!-- 커스텀 API 조회 -->
+	<select id="getCustomsApi" resultType="java.util.Map" parameterType="java.util.Map">
+		<choose>
+			<when test="customQueryText != null and customQueryText != ''"> 
+			${customQueryText} 
+			</when>
+			<otherwise>
+			SELECT '' FROM DUAL
+			</otherwise>
+		</choose>
+	</select>
 </mapper>
