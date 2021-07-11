@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.spring.api.mapper.ProdMapper">
+	
+	<!-- 상품조회 --> 
+	<select id="SelectApiProds" resultType="com.example.spring.api.model.ApiProd" parameterType="java.util.Map">
+        SELECT PRO_CODE
+             , PRO_NAME
+             , PRO_CATEGORY
+             , PRO_BRAND
+             , PRO_PRICE
+             , PRO_INFO
+             , PRO_AVAILABLE
+        FROM API_PRODUCT
+        WHERE 1=1
+          AND (#{pro_code} IS NULL OR PRO_CODE = #{pro_code})
+    </select>    
+    
+    <!-- 상품저장 -->
+	<update id="SaveApiProds" parameterType="java.util.Map">
+		MERGE INTO API_PRODUCT P
+		USING (SELECT #{pro_code} AS PRO_CODE
+					, #{pro_name} AS PRO_NAME
+					, #{pro_category} AS PRO_CATEGORY
+					, #{pro_brand} AS PRO_BRAND
+					, #{pro_price} AS PRO_PRICE
+					, #{pro_info} AS PRO_INFO
+					, #{pro_available} AS PRO_AVAILABLE					
+					, SYSDATE AS REG_DATE
+					, #{userId} AS REG_EMP
+					, #{userIp} AS IP
+				FROM DUAL ) T
+		ON (P.PRO_CODE = T.PRO_CODE)
+		WHEN MATCHED THEN
+		UPDATE SET P.PRO_NAME = T.PRO_NAME
+			     , P.PRO_CATEGORY = T.PRO_CATEGORY
+			     , P.PRO_BRAND = T.PRO_BRAND
+			     , P.PRO_PRICE = T.PRO_PRICE
+			     , P.PRO_INFO = T.PRO_INFO
+			     , P.PRO_AVAILABLE = T.PRO_AVAILABLE
+			     , P.REG_DATE = T.REG_DATE
+			     , P.REG_EMP = T.REG_EMP
+			     , P.IP = T.IP
+		WHEN NOT MATCHED THEN
+		INSERT (P.PRO_CODE
+			  , P.PRO_NAME
+			  , P.PRO_CATEGORY
+			  , P.PRO_BRAND
+			  , P.PRO_PRICE
+			  , P.PRO_INFO
+			  , P.PRO_AVAILABLE
+			  , P.REG_DATE
+			  , P.REG_EMP
+			  , P.IP )
+		VALUES (T.PRO_CODE
+			  , T.PRO_NAME
+			  , T.PRO_CATEGORY
+			  , T.PRO_BRAND
+			  , T.PRO_PRICE
+			  , T.PRO_INFO
+			  , T.PRO_AVAILABLE
+			  , T.REG_DATE
+			  , T.REG_EMP
+			  , T.IP )
+	</update>	
+	
+	<!-- 상품삭제 -->
+	<delete id="DeleteApiProds" parameterType="java.util.Map">
+	    DELETE API_PRODUCT WHERE PRO_CODE = #{pro_code}
+    </delete> 
+	
+</mapper>
