@@ -1,6 +1,7 @@
 package com.example.spring.api.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,5 +26,12 @@ public class HomeServiceImpl implements HomeService{
 		logger.info("HomeServiceImpl.findApiUsers"); 
 		
 		return homeMapper.findApiUsers(); 
+	}
+	
+	@Override 
+	public ApiUser findApiUser(Map map) {
+		logger.info("HomeServiceImpl.findApiUser"); 
+		ApiUser user = homeMapper.findApiUser(map);
+		return user;
 	}
 }
