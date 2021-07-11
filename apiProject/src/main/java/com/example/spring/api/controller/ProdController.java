@@ -28,7 +28,6 @@ import com.example.spring.api.service.ProdService;
 public class ProdController {
 	@Autowired
 	private ProdService ProdService;
-	
 	private static final Logger logger = LoggerFactory.getLogger(ProdController.class);
 	
 	@RequestMapping(value = "/", method = RequestMethod.GET)

@@ -10,8 +10,6 @@ import com.example.spring.api.model.ApiProd;
 public interface ProdMapper {
 
 	ApiProd SelectApiProds(Map map);
-	
 	int SaveApiProds(Map map);
-	
 	int DeleteApiProds(Map map);
 }

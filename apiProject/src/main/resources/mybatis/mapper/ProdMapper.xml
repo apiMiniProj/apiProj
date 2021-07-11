@@ -3,6 +3,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.spring.api.mapper.ProdMapper">
 	
+	
 	<!-- 상품조회 --> 
 	<select id="SelectApiProds" resultType="com.example.spring.api.model.ApiProd" parameterType="java.util.Map">
         SELECT PRO_CODE

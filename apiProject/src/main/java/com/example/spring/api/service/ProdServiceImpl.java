@@ -16,7 +16,6 @@ import com.example.spring.api.model.ApiProd;
 public class ProdServiceImpl implements ProdService{
 	@Autowired
 	private ProdMapper ProdMapper; 
-	
 	private static final Logger logger = LoggerFactory.getLogger(ProdController.class);
 		
 	@Override 

@@ -5,7 +5,6 @@
 <html>
 	<head>
 		<%@include file ="bootstrapHeader.jsp" %>
-		
 	</head>
 	<body>
 	<main  id ="prods-form"  class="prods-form">
