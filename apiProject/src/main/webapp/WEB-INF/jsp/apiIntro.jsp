@@ -13,8 +13,12 @@
 <body>
 <div class="bs-component">
 	<div class="container">
-		<div class="text-left mt-4">
-			<h1 class="h6 font-weight-normal">API 어드민 인트로 화면입니다.</h1>
+		<div class="card border-primary mt-4" >
+			<div class="card-header">Notice!!</div>
+			<div class="card-body">
+				<h4 class="card-title">Intro</h4>
+				<p class="card-text">API 사용자 관리와 커스텀 쿼리 관리를 위한 API 어드민 인트로 화면입니다 :D</p>
+			</div>
 		</div>
 	</div>
 </div>

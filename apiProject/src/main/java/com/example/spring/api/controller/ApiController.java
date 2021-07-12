@@ -9,6 +9,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,9 +21,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.spring.api.model.ApiProd;
 import com.example.spring.api.model.ApiQuery;
 import com.example.spring.api.model.ApiUser;
 import com.example.spring.api.security.CustomUser;
@@ -30,6 +33,7 @@ import com.example.spring.api.security.CustomUserDetailsService;
 import com.example.spring.api.security.JwtTokenProvider;
 import com.example.spring.api.service.AdminService;
 import com.example.spring.api.service.HomeService;
+import com.example.spring.api.service.ProdService;
 
 @RestController
 public class ApiController {
@@ -38,6 +42,9 @@ public class ApiController {
 	
 	@Autowired
 	private AdminService adminService;
+	
+	@Autowired
+	private ProdService ProdService;
 	
 	@Autowired
 	CustomUserDetailsService customUserDetailsService;
@@ -68,6 +75,35 @@ public class ApiController {
 		
 		resultMap.put("accessToken", token);
 		return new ResponseEntity<>(resultMap, httpHeaders, HttpStatus.OK);
+	}
+	
+	/** 상품조회 **/
+	@RequestMapping(value = "/api/SelectApiProds", method = RequestMethod.GET)
+	public @ResponseBody Object SelectApiProds(@RequestParam Map<String, Object> map, HttpServletRequest req) throws Exception {
+		logger.info(">>ApiController.SelectApiProds");
+		final ApiProd apiProd = ProdService.SelectApiProds(map);
+		return apiProd;
+	}
+	
+	/** 상품저장 **/
+	@RequestMapping(value = "/api/SaveApiProds", method = RequestMethod.POST)
+	public @ResponseBody Object SaveApiProds(@RequestBody Map<String, Object> map, HttpServletRequest req) throws Exception {
+				
+		HttpSession session = req.getSession();
+		map.put("userId", session.getAttribute("userId"));
+		map.put("userIp", session.getAttribute("userIp"));
+		
+		final int cntS = ProdService.SaveApiProds(map);
+		return cntS;
+	}
+	
+	/** 상품삭제 **/
+	@RequestMapping(value = "/api/DeleteApiProds", method = RequestMethod.POST)
+	public @ResponseBody Object DeleteApiProds(@RequestBody Map<String, Object> map, HttpServletRequest req) throws Exception {
+		logger.info(">>ApiController.DeleteApiProds");
+		
+		final int cntD = ProdService.DeleteApiProds(map);
+		return cntD;
 	}
 	
 	/** 커스텀 api GET 조회 **/

@@ -19,7 +19,7 @@
                                 
                 </div>
                 <div class="card-body" >    
-                <form action="" id="Prods"   > 
+                <form action="" id="Prods"  target="iframe1" > 
                 	<div class="row justify-content-center">         
                 		<div class="form-group row">                         
                 			<div class="col-sm-6">  
@@ -88,6 +88,7 @@
             </div>
         </div>
     </div>
+<iframe id="iframe1" name="iframe1" style="display:none"></iframe>
     </div>
     </div>
 
@@ -103,6 +104,28 @@ function btnInitClick(){
 
 //상품 저장
 function btnSaveClick(){
+	// 토큰 가지고 오기
+	var userObject = {
+		userId : "user" ,
+		userPw : "user" 
+	};
+	
+	var token = "";
+	
+	$.ajax({
+		type : "POST",
+		url : "http://210.182.19.6:7070/auth",
+		data: JSON.stringify(userObject),
+		async: false,
+		contentType : "application/json; charset=UTF-8",
+		success : function(data) {
+			if (!(data == null || data == "")){
+				console.log("accessToken : "+data.accessToken);
+				token = data.accessToken;
+			}
+		}
+	});
+	
 	var param = {
 			proCode : $("#pro_code").val(),
 			proName : $("#pro_name").val(),
@@ -115,9 +138,12 @@ function btnSaveClick(){
 	
 	$.ajax({
 		type : "POST",
-		url : "/prods/SaveApiProds",
+		url : "http://210.182.19.6:7070/api/SaveApiProds",
 		data: JSON.stringify(param),
 		contentType : "application/json; charset=UTF-8",
+		headers: {
+			"Authorization" : "Bearer "+token
+		} ,
 		success : function(data) {
 			if (data > 0){
 				//저장
@@ -130,15 +156,40 @@ function btnSaveClick(){
 
 //상품 삭제
 function btnDeleteClick(){
+	// 토큰 가지고 오기
+	var userObject = {
+		userId : "user" ,
+		userPw : "user" 
+	};
+	
+	var token = "";
+	
+	$.ajax({
+		type : "POST",
+		url : "http://210.182.19.6:7070/auth",
+		data: JSON.stringify(userObject),
+		async: false,
+		contentType : "application/json; charset=UTF-8",
+		success : function(data) {
+			if (!(data == null || data == "")){
+				console.log("accessToken : "+data.accessToken);
+				token = data.accessToken;
+			}
+		}
+	});
+	
 	var param = {
 			proCode : $("#pro").val()
 		};
 	
 	$.ajax({
 		type : "POST",
-		url : "/prods/DeleteApiProds",
+		url : "http://210.182.19.6:7070/api/DeleteApiProds",
 		data: JSON.stringify(param),
 		contentType : "application/json; charset=UTF-8",
+		headers: {
+			"Authorization" : "Bearer "+token
+		} ,
 		success : function(data) {
 			if (data > 0){
 				//삭제
@@ -154,15 +205,40 @@ function btnDeleteClick(){
 
 //상품 조회
 function btnSelectClick(){
+	// 토큰 가지고 오기
+	var userObject = {
+		userId : "user" ,
+		userPw : "user" 
+	};
+	
+	var token = "";
+	
+	$.ajax({
+		type : "POST",
+		url : "http://210.182.19.6:7070/auth",
+		data: JSON.stringify(userObject),
+		async: false,
+		contentType : "application/json; charset=UTF-8",
+		success : function(data) {
+			if (!(data == null || data == "")){
+				console.log("accessToken : "+data.accessToken);
+				token = data.accessToken;
+			}
+		}
+	});
+	
 	var param = {
 			proCode : $("#pro").val()
 		};
 	
 	$.ajax({
 		type : "GET",
-		url : "/prods/SelectApiProds",
+		url : "http://210.182.19.6:7070/api/SelectApiProds",
 		data: param,
 		contentType : "application/json; charset=UTF-8",
+		headers: {
+			"Authorization" : "Bearer "+token
+		} ,
 		success : function(data) {
 			if (!(data == null || data == "")){
 				$('#pro_code').val(data.proCode);
